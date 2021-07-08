@@ -2,18 +2,18 @@
 import { createLogger, format, transports } from 'winston';
 const { combine, timestamp, prettyPrint } = format;
 import moment from 'moment';
+import config from '../config';
 
 export default createLogger({
     // error > warn > info > http > verbose > debug > silly
-    level: 'debug',
+    level: config.logs.level,
     format: combine(
         timestamp({
             format: 'YYYY-MM-DD HH:mm:ss',
         }),
         prettyPrint()
     ),
-    // TODO: process.env.NODE_ENV 없는경우 개발과 운영 구분할 것
-    transports: (true) ? 
+    transports: (config.run.mode === 'development') ? 
     // 개발
     [
         new transports.Console(),

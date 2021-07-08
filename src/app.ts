@@ -11,7 +11,8 @@ async function startServer() {
     // listening
     app.listen(config.port, () => {
         Logger.info(`🔊 Server is listening on port: ${config.port}`);
-    }).on('error', (error) => {
+    })
+    .on('error', (error) => {
         Logger.error(`${error}`);
         process.exit(1);
     });
