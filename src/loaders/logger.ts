@@ -1,32 +1,37 @@
-import winston from 'winston';  // https://github.com/winstonjs/winston
+import { createLogger, format, transports } from 'winston';  // https://github.com/winstonjs/winston
+const { combine, timestamp, prettyPrint } = format;
+import moment from 'moment';
+import config from '../config';
 
-let transports = [];
-if (process.env.NODE_ENV !== 'development') {
-    transports.push(new winston.transports.Console());
+const setTransports = (env: string) => {
+    let result = [];
+    if (env !== 'development') {
+        result.push(new transports.Console());
+    }
+    else {
+        result.push(new transports.Console());
+        result.push(new transports.File({
+            filename: `./log/${moment().format('YYYY-MM-DD')}`,
+            level: 'warn',
+        }));
+    }
+
+    return result;
 }
-else {
-    transports.push(new winston.transports.Console({
-        format: winston.format.combine(
-            winston.format.cli(),
-            winston.format.splat(),
+
+const getOptions = (env) => {
+    let result = {
+        level: config.logs.level,
+        format: combine(
+            timestamp({
+                format: 'YYYY-MM-DD HH:mm:ss',
+            }),
+            prettyPrint()
         ),
-    }));
+        transports: setTransports(process.env.NODE_ENV),
+    }
+
+    return result;
 }
 
-const LoggerInstance = winston.createLogger({
-    level: '',
-    levels: winston.config.npm.levels,
-    format: winston.format.combine(
-        winston.format.timestamp({
-            format: 'YYYY-MM-DD HH:mm:ss',
-        }),
-        winston.format.errors({
-            stack: true,
-        }),
-        winston.format.splat(),
-        winston.format.json()
-    ),
-    transports,
-});
-
-export default LoggerInstance;
+export default createLogger(getOptions(process.env.NODE_ENV));

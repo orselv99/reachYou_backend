@@ -1,7 +1,8 @@
 import cors from 'cors';
 import express from 'express';
+import routes from '../api';
 
-export default (app: any) => {
+export default (app: express.Application) => {
 
     // 서버 health check
     app.get('/status', (request, response) => {
@@ -12,7 +13,7 @@ export default (app: any) => {
     });
 
     // reverse proxy 설정
-    app.use('trust proxy');
+    app.enable('trust proxy');
 
     // 
     app.use(cors());
@@ -20,4 +21,7 @@ export default (app: any) => {
     // 
     app.use(express.urlencoded({ extended: false }))
     app.use(express.json());
+
+    //
+    app.use('/', routes());
 }

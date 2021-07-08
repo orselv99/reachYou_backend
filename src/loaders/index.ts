@@ -1,3 +1,4 @@
+import expressLoader from './express'
 
 export default async (app: any) => {
     // db connection
@@ -5,4 +6,5 @@ export default async (app: any) => {
     // dependency injector
 
     // express 설정
+    expressLoader(app);
 }
