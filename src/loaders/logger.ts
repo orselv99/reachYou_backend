@@ -1,37 +1,29 @@
-import { createLogger, format, transports } from 'winston';  // https://github.com/winstonjs/winston
+// https://github.com/winstonjs/winston
+import { createLogger, format, transports } from 'winston';
 const { combine, timestamp, prettyPrint } = format;
 import moment from 'moment';
-import config from '../config';
 
-const setTransports = (env: string) => {
-    let result = [];
-    if (env !== 'development') {
-        result.push(new transports.Console());
-    }
-    else {
-        result.push(new transports.Console());
-        result.push(new transports.File({
-            filename: `./log/${moment().format('YYYY-MM-DD')}`,
+export default createLogger({
+    // error > warn > info > http > verbose > debug > silly
+    level: 'debug',
+    format: combine(
+        timestamp({
+            format: 'YYYY-MM-DD HH:mm:ss',
+        }),
+        prettyPrint()
+    ),
+    // TODO: process.env.NODE_ENV 없는경우 개발과 운영 구분할 것
+    transports: (true) ? 
+    // 개발
+    [
+        new transports.Console(),
+    ] 
+    : 
+    // 운영
+    [
+        new transports.File({
+            filename: `./log/${moment().format('YYYY-MM-DD')}.log`,
             level: 'warn',
-        }));
-    }
-
-    return result;
-}
-
-const getOptions = (env) => {
-    let result = {
-        level: config.logs.level,
-        format: combine(
-            timestamp({
-                format: 'YYYY-MM-DD HH:mm:ss',
-            }),
-            prettyPrint()
-        ),
-        transports: setTransports(process.env.NODE_ENV),
-    }
-
-    return result;
-}
-
-export default createLogger(getOptions(process.env.NODE_ENV));
+        }),
+    ]
+});
