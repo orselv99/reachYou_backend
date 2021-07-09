@@ -1,9 +1,7 @@
-import Router from 'express';
-import RequestIp from 'request-ip';
-
-export default (app: Router) => {
-    const route = Router();
-    app.use(RequestIp.mw());
+import router from 'express';
+//import request from 'request';
+export default (app: router) => {
+    const route = router();
 
     app.use('/landing', route);
 
@@ -12,6 +10,6 @@ export default (app: Router) => {
     // 날씨 서비스
     route.get('/getWeather', (request, response) => {
         //Logger.info(`${request.clientIp} is connected.`);
-        response.end(request.clientIp);
+        response.end(`${request.visitorIpAddress}`);
     });
 }

@@ -1,18 +1,18 @@
-import Logger from './logger';
-import DBConnectionLoader from './db';
-import DependencyInjectorLoader from './dependencyInjector';
-import ExpressLoader from './express'
+import logger from './logger';
+import dBConnectionLoader from './db';
+import dependencyInjectorLoader from './dependencyInjector';
+import expressLoader from './express'
 
 export default async (app) => {
     // db connection
-    const dbConnection = await DBConnectionLoader();
-    Logger.info('🔊 DB connected.');
+    const dbConnection = await dBConnectionLoader();
+    logger.info('🔊 DB connected.');
 
     // dependency injector
-    await DependencyInjectorLoader(dbConnection);
-    Logger.info('🔊 Dependency Injector loaded.');
+    await dependencyInjectorLoader(dbConnection);
+    logger.info('🔊 Dependency Injector loaded.');
 
     // express 설정
-    await ExpressLoader(app);
-    Logger.info('🔊 Express loaded.');
+    await expressLoader(app);
+    logger.info('🔊 Express loaded.');
 }

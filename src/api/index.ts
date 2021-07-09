@@ -1,10 +1,10 @@
-import Router from 'express'
-import Write from './routes/write'
-import Landing from './routes/landing'
+import router from 'express'
+import write from './routes/write'
+import landing from './routes/landing'
 
 export default () => {
-    const app = Router();
-    Write(app);
-    Landing(app);
+    const app = router();
+    write(app);
+    landing(app);
     return app;
 }
