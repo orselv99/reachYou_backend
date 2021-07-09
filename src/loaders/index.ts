@@ -6,7 +6,7 @@ import expressLoader from './express'
 export default async (app) => {
     // db connection
     const dbConnection = await dBConnectionLoader();
-    logger.info('🔊 DB connected.');
+    logger.info((dbConnection !== null) ? '🔊 DB connected.' : '❌ DB is not connected.');
 
     // dependency injector
     await dependencyInjectorLoader(dbConnection);

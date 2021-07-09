@@ -19,6 +19,9 @@ export default {
         level: process.env.LOG_LEVEL,
     },
     db: {
-        uri: process.env.DB_URI,
+        protocol: process.env.DB_PROTOCOL,
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        connectionLimit: process.env.DB_CONNECTION_LIMIT,
     }
 }
