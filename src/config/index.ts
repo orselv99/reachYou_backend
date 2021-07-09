@@ -1,3 +1,7 @@
+// Bulletproof node.js project architecture 🛡️
+// https://softwareontheroad.com/ideal-nodejs-project-structure/
+
+
 import dotenv from 'dotenv';
 
 const error = dotenv.config();
