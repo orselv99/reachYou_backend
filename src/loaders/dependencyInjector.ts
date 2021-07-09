@@ -4,6 +4,6 @@ import Container from 'typedi';
 import logger from './logger';
 
 export default (dbConnection) => {
-    Container.set('dbConnection', dbConnection);
-    Container.set('logger', logger);
+    Container.set('dbConnectionInstance', dbConnection);
+    Container.set('loggerInstance', logger);
 }
